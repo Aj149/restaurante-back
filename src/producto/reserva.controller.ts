@@ -28,30 +28,31 @@ export class ProductoController {
   }
 
   @UsePipes(ValidationPipe)
-  @Patch(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateReservaDto: UpdateReservaDto
-  ): Promise<string> {
-    const reserva = await this.reservaService.updateReserva(id, updateReservaDto);
-    if (!reserva) {
-      throw new NotFoundException('No existe la reserva');
-    }
-    return `reserva con ID ${id} actualizado`;
+@Patch(':id')
+async update(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() updateReservaDto: UpdateReservaDto
+) {
+  const reserva = await this.reservaService.updateReserva(id, updateReservaDto);
+  if (!reserva) {
+    throw new NotFoundException('No existe la reserva');
   }
+  return {message: `Reserva con ID ${id} actualizada`};
+}
 
-  @UsePipes(ValidationPipe)
-  @Put(':id')
-  async updateComplete(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateReservaDto: UpdateReservaDto
-  ): Promise<string> {
-    const reserva = await this.reservaService.updateReserva(id, updateReservaDto);
-    if (!reserva) {
-      throw new NotFoundException('No existe la reserva');
-    }
-    return reserva;
+@UsePipes(ValidationPipe)
+@Put(':id')
+async updateComplete(
+  @Param('id', ParseIntPipe) id: number,
+  @Body() updateReservaDto: UpdateReservaDto
+) {
+  const reserva = await this.reservaService.updateReserva(id, updateReservaDto);
+  if (!reserva) {
+    throw new NotFoundException('No existe la reserva');
   }
+  return reserva; // Devuelve directamente los datos de la reserva
+}
+
 
 
   @UsePipes(ValidationPipe)

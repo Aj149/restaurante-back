@@ -44,14 +44,14 @@ export class ReservaService {
         return {message: `La reserva para ${reserva.nombre} ha sido creada`};
     }
     
-    async updateReserva(id_reserva: number, updateReservaDto: UpdateReservaDto): Promise<string> {
+    async updateReserva(id_reserva: number, updateReservaDto: UpdateReservaDto){
         const reserva = await this.findById(id_reserva);
         if (!reserva) {
           throw new NotFoundException('No existe la reserva');
         }
         Object.assign(reserva, updateReservaDto);
         await this.reservaRepository.save(reserva);
-        return `reserva con ID ${reserva.id_reserva} actualizado`;
+        return {message: `reserva con ID ${reserva.id_reserva} actualizado`};
       }
 
       async deleteReserva(id_reserva: number) {
@@ -60,7 +60,7 @@ export class ReservaService {
             throw new NotFoundException(`La reserva con ID ${id_reserva} no existe`);
         }
         await this.reservaRepository.delete(reserva.id_reserva);
-        return `Reserva con ID ${reserva.id_reserva} eliminada`;
+        return {message: `Reserva con ID ${reserva.id_reserva} eliminada`};
     }
     
 
