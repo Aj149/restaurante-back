@@ -11,7 +11,7 @@ import {
   DB_USER,
 } from './conf/constanst';
 import { ReservaModule } from './producto/reserva.module';
-import { truncate } from 'fs';
+import { ComentariosModule } from './comentarios/comentarios.module';
 
 @Module({
   imports: [
@@ -29,11 +29,13 @@ import { truncate } from 'fs';
         password: configService.get<string>(DB_PASSWORD),
         database: configService.get<string>(DB_DATABASE),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        synchronize: true,
         logging: true,
       }),
       inject: [ConfigService],
     }),
     ReservaModule,
+    ComentariosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

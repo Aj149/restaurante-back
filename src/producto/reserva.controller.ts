@@ -24,7 +24,7 @@ export class ProductoController {
   
   @Post()
   async createReserva(@Body() createReservaDto: CreateReservaDto) {
-    return await this.reservaService.createReserva(createReservaDto);
+    return this.reservaService.createReserva(createReservaDto);
   }
 
   @UsePipes(ValidationPipe)

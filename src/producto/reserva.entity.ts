@@ -2,25 +2,25 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'reserva' })
 export class ReservaEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('increment')
   id_reserva: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   nombre: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar'})
   email: string;
 
-  @Column({ type: 'int', nullable: false }) 
+  @Column({ type: 'int'}) 
   telefono: number;
 
-  @Column({ type: 'varchar', length: 255, nullable: false })
+  @Column({ type: 'varchar' })
   lugar: string;
 
-  @Column({ type: 'int', nullable: false }) 
+  @Column({ type: 'int'}) 
   n_personas: number;
 
-  @Column({ type: 'date', nullable: false })
+  @Column({ type: 'date' })
   fecha: Date;
 
   @Column({ type: 'varchar' })
