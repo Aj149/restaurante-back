@@ -12,6 +12,7 @@ import {
 } from './conf/constanst';
 import { ReservaModule } from './producto/reserva.module';
 import { ComentariosModule } from './comentarios/comentarios.module';
+import { PlatosModule } from './platos/platos.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { ComentariosModule } from './comentarios/comentarios.module';
     }),
     ReservaModule,
     ComentariosModule,
+    PlatosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

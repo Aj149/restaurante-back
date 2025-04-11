@@ -1,3 +1,4 @@
+import { IsVariableWidth } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'reserva' })
