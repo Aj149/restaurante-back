@@ -13,6 +13,7 @@ import {
 import { ReservaModule } from './producto/reserva.module';
 import { ComentariosModule } from './comentarios/comentarios.module';
 import { PlatosModule } from './platos/platos.module';
+import { LugaresModule } from './lugares/lugares.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { PlatosModule } from './platos/platos.module';
     ReservaModule,
     ComentariosModule,
     PlatosModule,
+    LugaresModule,
   ],
   controllers: [AppController],
   providers: [AppService],

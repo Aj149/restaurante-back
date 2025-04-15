@@ -45,12 +45,12 @@ export class PlatosService {
         }
 
 
-         async updatePlato(id_plato: number, updateDto: UpdatePlatoDto){
+         async updatePlato(id_plato: number, updatePlatoDto: UpdatePlatoDto){
                 const plato = await this.buscarPlatoId(id_plato);
                 if (!plato) {
                   throw new NotFoundException('No existe el plato');
                 }
-                Object.assign(plato, UpdatePlatoDto);
+                Object.assign(plato, updatePlatoDto);
                 await this.platoRepository.save(plato);
                 return {message: `plato con ID ${plato.id_plato} actualizado`};
               }
@@ -63,5 +63,5 @@ export class PlatosService {
                 }
                 await this.platoRepository.delete(plato.id_plato);
                 return {message: `Plato con ID ${plato.id_plato} eliminada`};
-            }
+        }
 }

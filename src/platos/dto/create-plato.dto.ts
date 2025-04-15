@@ -1,19 +1,20 @@
-import { IsString, IsNotEmpty, IsNumber, IsPositive, IsUrl } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsPositive, IsUrl, IsOptional } from 'class-validator';
 
 export class CreatePlatoDto {
-  @IsString()
+  @IsOptional()
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
   nombre: string;
 
+  @IsOptional()
   @IsNumber({}, { message: 'El precio debe ser un número' })
   @IsPositive({ message: 'El precio debe ser mayor a 0' })
   precio: number;
 
-  @IsString()
+  @IsOptional()
   @IsNotEmpty({ message: 'La descripción es obligatoria' })
   descripcion: string;
 
-  @IsString()
+  @IsOptional()
   @IsUrl({}, { message: 'La imagen debe ser una URL válida' })
   imagen: string;
 }
