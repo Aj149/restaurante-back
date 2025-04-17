@@ -1,6 +1,4 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsPositive, IsUrl } from "class-validator";
-import { Capacidad } from '../../producto/enums/lugares';
-
 
 
 export class CreateLugareDto {

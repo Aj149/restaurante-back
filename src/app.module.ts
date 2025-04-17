@@ -10,10 +10,14 @@ import {
   DB_PORT,
   DB_USER,
 } from './conf/constanst';
-import { ReservaModule } from './producto/reserva.module';
-import { ComentariosModule } from './comentarios/comentarios.module';
-import { PlatosModule } from './platos/platos.module';
-import { LugaresModule } from './lugares/lugares.module';
+import { ReservaModule } from './client/reservas/reserva.module';
+import { ComentariosModule } from './client/comentarios/comentarios.module';
+import { PlatosModule } from './admin/platos/platos.module';
+import { LugaresModule } from './admin/lugares/lugares.module';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from './core/auth/auth.module';
+import { UsersModule } from './core/users/users.module';
+
 
 @Module({
   imports: [
@@ -38,8 +42,10 @@ import { LugaresModule } from './lugares/lugares.module';
     }),
     ReservaModule,
     ComentariosModule,
-    PlatosModule,
+    PlatosModule, 
     LugaresModule,
+    AuthModule,
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],

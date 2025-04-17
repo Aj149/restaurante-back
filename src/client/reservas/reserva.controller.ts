@@ -6,7 +6,7 @@ import { Capacidad, Lugar } from './enums/lugares';
 
 
 @Controller('reserva')
-export class ProductoController {
+export class ReservaController {
   constructor(private readonly reservaService: ReservaService) {}
 
 
