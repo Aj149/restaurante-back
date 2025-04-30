@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from '../jwt.strategy';
+import { UserController } from './user.controller';
+import { UserService } from './user.service';
+import { User } from './entities/user.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     ConfigModule, // para usar ConfigService
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -19,10 +21,10 @@ import { JwtStrategy } from '../jwt.strategy';
         },
       }),
     }),
-    UsersModule
+    // Aquí puedes agregar otros módulos que necesites importar
   ],
-  controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
-  exports: [JwtModule], // importante si otros módulos usan JWT
+  controllers: [UserController],
+  providers: [UserService, JwtStrategy],
+  exports: [JwtModule, UserService], // importante si otros módulos usan JWT
 })
-export class AuthModule {}
+export class UserModule {}

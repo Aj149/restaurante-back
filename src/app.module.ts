@@ -14,9 +14,7 @@ import { ReservaModule } from './client/reservas/reserva.module';
 import { ComentariosModule } from './client/comentarios/comentarios.module';
 import { PlatosModule } from './admin/platos/platos.module';
 import { LugaresModule } from './admin/lugares/lugares.module';
-import { JwtModule } from '@nestjs/jwt';
-import { AuthModule } from './core/auth/auth.module';
-import { UsersModule } from './core/users/users.module';
+import { UserModule } from './core/user/user.module';
 
 
 @Module({
@@ -44,8 +42,7 @@ import { UsersModule } from './core/users/users.module';
     ComentariosModule,
     PlatosModule, 
     LugaresModule,
-    AuthModule,
-    UsersModule
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
