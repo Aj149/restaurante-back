@@ -7,7 +7,10 @@ import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
-import { Observable } from 'rxjs';
+import * as crypto from 'crypto';
+import * as nodemailer from 'nodemailer';
+import { ForgotPasswordDto } from './dto/recuperar-user.dto';
+import { ResetPasswordDto } from './dto/resert-user.dto';
 
 @Injectable()
 export class UserService {
@@ -70,4 +73,60 @@ export class UserService {
   async findAll(): Promise<LoginUserDto[]> {
     return this.userRepository.find();  // Consulta a la base de datos para obtener todos los usuarios
   }
+
+  async forgotPassword(dto: ForgotPasswordDto): Promise<{ message: string }> {
+    const { email } = dto;
+    const user = await this.userRepository.findOne({ where: { email } });
+  
+    if (!user) {
+      return { message: 'Si el correo está registrado, recibirás un mensaje con instrucciones.' };
+    }
+  
+    const token = crypto.randomBytes(32).toString('hex');
+    const expires = new Date(Date.now() + 1000 * 60 * 60); // 1 hora
+  
+    user.resetToken = token;
+    user.resetTokenExpires = expires;
+    await this.userRepository.save(user);
+  
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+  
+    const transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+        user: process.env.EMAIL_FROM,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  
+    await transporter.sendMail({
+      from: process.env.EMAIL_FROM,
+      to: user.email,
+      subject: 'Recuperación de contraseña',
+      html: `<p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
+             <a href="${resetLink}">${resetLink}</a>`,
+    });
+  
+    return { message: 'Correo de recuperación enviado correctamente' };
+  }
+
+
+  async resetPassword(dto: ResetPasswordDto): Promise<{ message: string }> {
+    const { token, newPassword } = dto;
+    const user = await this.userRepository.findOne({ where: { resetToken: token } });
+  
+    if (!user || user.resetTokenExpires < new Date()) {
+      throw new Error('Token inválido o expirado');
+    }
+  
+    user.password = await bcrypt.hash(newPassword, 10); // Encriptamos la nueva contraseña
+    user.resetToken = null; // Limpiamos el token para que no se pueda usar más
+    user.resetTokenExpires = null;
+    await this.userRepository.save(user);
+
+    return { message: 'Contraseña actualizada con exito' };
+  }
+  
+  
+
 }

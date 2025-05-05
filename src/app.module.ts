@@ -15,6 +15,7 @@ import { ComentariosModule } from './client/comentarios/comentarios.module';
 import { PlatosModule } from './admin/platos/platos.module';
 import { LugaresModule } from './admin/lugares/lugares.module';
 import { UserModule } from './core/user/user.module';
+import { AdminModule } from './core/admin/admin.module';
 
 
 @Module({
@@ -43,6 +44,7 @@ import { UserModule } from './core/user/user.module';
     PlatosModule, 
     LugaresModule,
     UserModule,
+    AdminModule
   ],
   controllers: [AppController],
   providers: [AppService],

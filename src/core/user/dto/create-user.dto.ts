@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'El nombre es obligatorio' })
@@ -18,4 +18,8 @@ export class CreateUserDto {
 
   @IsNotEmpty({ message: 'La direccion es obligatoria' })
   direccion: string;
+
+  @IsOptional()
+  @IsString()
+  website?: string;
 }
