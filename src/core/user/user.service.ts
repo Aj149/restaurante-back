@@ -50,14 +50,26 @@ export class UserService {
     return null;
   }
 
-  // ✅ Login y generación de token
-  async login(user: any) {
-    const payload = { sub: user.id, email: user.email, role: user.role || 'usuario' };
+ // ✅ Login y generación de token
+async login(user: any) {
+  const payload = {
+    sub: user.id,
+    email: user.email,
+    nombre: user.nombre,    // Incluir nombre
+    apellido: user.apellido, // Incluir apellido
+    telefono: user.telefono, // Incluir telefono
+    direccion: user.direccion, // Incluir direccion
+    role: user.role || 'usuario'
+  };
 
-    return {
-      access_token: this.jwtService.sign(payload, { expiresIn: '1h' }),
-    };
-  }
+  const access_token = this.jwtService.sign(payload, { expiresIn: '1h' });
+
+  return {
+    access_token,
+  };
+}
+
+  
 
   // ✅ Validación del login
   async loginUser(loginDto: LoginUserDto) {
