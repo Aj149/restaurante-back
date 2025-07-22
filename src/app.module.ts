@@ -16,6 +16,7 @@ import { PlatosModule } from './admin/platos/platos.module';
 import { LugaresModule } from './admin/lugares/lugares.module';
 import { UserModule } from './core/user/user.module';
 import { AdminModule } from './core/admin/admin.module';
+import { PersonalModule } from './admin/personal/personal.module';
 
 
 @Module({
@@ -44,7 +45,8 @@ import { AdminModule } from './core/admin/admin.module';
     PlatosModule, 
     LugaresModule,
     UserModule,
-    AdminModule
+    AdminModule,
+    PersonalModule,
   ],
   controllers: [AppController],
   providers: [AppService],
