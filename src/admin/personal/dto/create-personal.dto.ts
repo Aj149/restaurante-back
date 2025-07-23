@@ -56,4 +56,8 @@ export class CreatePersonalDto {
   @IsOptional()
   @IsString()
   jornadaLaboral: string;
+ 
+  @IsOptional()
+  @IsString()
+  descripcion: string;
 }

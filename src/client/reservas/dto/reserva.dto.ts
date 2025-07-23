@@ -26,4 +26,7 @@ fecha: Date;
 
 @Column({ type: 'varchar'})
 hora: string;
+
+@Column({ type: 'varchar'})
+detalles: string;
 }

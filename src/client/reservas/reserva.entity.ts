@@ -25,4 +25,8 @@ export class ReservaEntity {
 
   @Column({ type: 'varchar' })
     hora: string;
+ 
+   @Column({ type: 'varchar', nullable: true })
+detalles: string;
+
 }

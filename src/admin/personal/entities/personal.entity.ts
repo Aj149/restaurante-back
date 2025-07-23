@@ -44,4 +44,7 @@ export class PersonalEntity {
 
   @Column({ nullable: true })
   jornadaLaboral: string;
+
+  @Column({ nullable: true })
+  descripcion: string;
 }
