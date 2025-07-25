@@ -21,7 +21,7 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
 @Post('login')
 async login(@Body() loginDto: LoginUserDto) {
-  return this.usersService.loginUser(loginDto); // ← aquí está la solución
+  return this.usersService.loginUser(loginDto); 
 }
 
 

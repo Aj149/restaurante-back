@@ -17,6 +17,7 @@ import { LugaresModule } from './admin/lugares/lugares.module';
 import { UserModule } from './core/user/user.module';
 import { AdminModule } from './core/admin/admin.module';
 import { PersonalModule } from './admin/personal/personal.module';
+import { BebidasModule } from './admin/bebidas/bebidas.module';
 
 
 @Module({
@@ -47,6 +48,7 @@ import { PersonalModule } from './admin/personal/personal.module';
     UserModule,
     AdminModule,
     PersonalModule,
+    BebidasModule
   ],
   controllers: [AppController],
   providers: [AppService],

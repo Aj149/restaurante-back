@@ -4,19 +4,19 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import * as crypto from 'crypto';
 import * as nodemailer from 'nodemailer';
 import { ForgotPasswordDto } from './dto/recuperar-user.dto';
 import { ResetPasswordDto } from './dto/resert-user.dto';
+import { UserEntity } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
     private jwtService: JwtService,
   ) {}
 
@@ -101,7 +101,8 @@ async login(user: any) {
     user.resetTokenExpires = expires;
     await this.userRepository.save(user);
   
-    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+    const resetLink = `${process.env.FRONTEND_URL}/reset-password?token=${token}&tipo=usuario`;
+
   
     const transporter = nodemailer.createTransport({
       service: 'Gmail',

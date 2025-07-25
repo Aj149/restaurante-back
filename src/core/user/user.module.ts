@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtStrategy } from '../jwt.strategy';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { User } from './entities/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from 'typeorm';
 import { AdminController } from '../admin/admin.controller';
@@ -12,7 +12,7 @@ import { AdminService } from '../admin/admin.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([UserEntity]),
     ConfigModule, // para usar ConfigService
     JwtModule.registerAsync({
       imports: [ConfigModule],
