@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Horario } from 'src/admin/horario/entities/horario.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('lugares')
 export class LugaresEntity {
@@ -15,8 +16,11 @@ export class LugaresEntity {
   descripcion: string;
 
   @Column('text')
-  imagen: string; // URL de la imagen
+  imagen: string;
 
   @Column('int')
   capacidad: number;
+
+  @OneToMany(() => Horario, horario => horario.lugar, { cascade: true }) // opcional cascade para que se guarden Horarios junto a Lugar
+  horarios: Horario[];
 }

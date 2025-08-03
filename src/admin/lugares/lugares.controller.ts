@@ -13,6 +13,7 @@ constructor(private readonly lugaresService: LugaresService) {}
     return this.lugaresService.getLugares();
   }
 
+
   @UsePipes(ValidationPipe)
   @Get(':id')
   async getLugarById(@Param('id') id: number) {

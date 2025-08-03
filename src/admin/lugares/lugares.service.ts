@@ -9,7 +9,8 @@ import { Repository } from 'typeorm';
 export class LugaresService {
   
   constructor(
-      @InjectRepository(LugaresEntity) private readonly lugaresRepository: Repository<LugaresEntity>
+      @InjectRepository(LugaresEntity) 
+      private readonly lugaresRepository: Repository<LugaresEntity>
     ) {}
     async getLugares(): Promise<LugaresEntity[]> {
           const list = await this.lugaresRepository.find();
@@ -36,6 +37,13 @@ export class LugaresService {
           }
           return lugar;
       } 
+
+      // buscar con horarios
+
+     
+
+
+
   
       async createLugar(CreateLugareDto: CreateLugareDto){
               const lugar = this.lugaresRepository.create(CreateLugareDto);

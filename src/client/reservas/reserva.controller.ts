@@ -2,27 +2,12 @@ import { Controller, Get, Post, Put, Delete, Param, Body, Patch, NotFoundExcepti
 import { ReservaService } from './reserva.service';
 import { CreateReservaDto } from './dto/reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
-import { Capacidad, Lugar } from './enums/lugares';
+
 
 
 @Controller('reserva')
 export class ReservaController {
   constructor(private readonly reservaService: ReservaService) {}
-
-
-  @Get('lugares')
-  getLugares() {
-    return {
-      lugares: Object.values(Lugar),
-      capacidades: {
-        [Lugar.LUGAR_1]: Capacidad.LUGAR_1,
-        [Lugar.LUGAR_2]: Capacidad.LUGAR_2,
-        [Lugar.LUGAR_3]: Capacidad.LUGAR_3,
-        [Lugar.LUGAR_4]: Capacidad.LUGAR_4,
-      },
-    };
-   }
-
 
 
   @UsePipes(ValidationPipe)

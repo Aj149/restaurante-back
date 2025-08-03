@@ -18,6 +18,7 @@ import { UserModule } from './core/user/user.module';
 import { AdminModule } from './core/admin/admin.module';
 import { PersonalModule } from './admin/personal/personal.module';
 import { BebidasModule } from './admin/bebidas/bebidas.module';
+import { HorarioModule } from './admin/horario/horario.module';
 
 
 @Module({
@@ -48,7 +49,8 @@ import { BebidasModule } from './admin/bebidas/bebidas.module';
     UserModule,
     AdminModule,
     PersonalModule,
-    BebidasModule
+    BebidasModule,
+    HorarioModule
   ],
   controllers: [AppController],
   providers: [AppService],

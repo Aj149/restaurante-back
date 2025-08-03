@@ -23,4 +23,18 @@ export class CreateLugareDto {
      @IsOptional()
      @IsNumber({}, { message: 'Debe ser un número' })
      Capacidad: number
+
+     @IsOptional()
+     @IsNumber({}, { })
+     dia: string
+
+     @IsOptional()
+     @IsNumber({}, {  })
+     hora: number
+
+     @IsOptional()
+     @IsNumber({}, {  })
+     estado: boolean
+
+
      }
