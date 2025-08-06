@@ -1,32 +1,30 @@
-import { IsEmail, IsNumber, IsString } from "class-validator";
-import { Column } from "typeorm";
+// create-reserva.dto.ts
+import { IsEmail, IsInt, IsOptional, IsString, IsDateString, Min } from 'class-validator';
 
-export class CreateReservaDto{
+export class CreateReservaDto {
+  @IsString()
+  nombre: string;
 
-@IsString()
-nombre: string;
+  @IsEmail()
+  email: string;
 
-@IsEmail()
-email: string;
+  @IsString()
+  telefono: string;
 
-  @IsNumber()
-  telefono: number;
+  @IsInt()
+  lugar_id: number;
 
+  @IsInt()
+  horario_id: number;
 
-@IsString()
-lugar: string;
+  @IsDateString()
+  fecha: string; // formato "YYYY-MM-DD"
 
-@IsNumber()
-n_personas: number;
+  @IsInt()
+  @Min(1)
+  n_personas: number;
 
-
-@Column({ type: 'date' })
-fecha: Date;
-
-
-@Column({ type: 'varchar'})
-hora: string;
-
-@Column({ type: 'varchar'})
-detalles: string;
+  @IsOptional()
+  @IsString()
+  detalles?: string;
 }

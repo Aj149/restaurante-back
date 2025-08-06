@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Patch, NotFoundException, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, Patch, NotFoundException, UsePipes, ValidationPipe, ParseIntPipe, Query } from '@nestjs/common';
 import { ReservaService } from './reserva.service';
 import { CreateReservaDto } from './dto/reserva.dto';
 import { UpdateReservaDto } from './dto/update-reserva.dto';
@@ -20,6 +20,18 @@ export class ReservaController {
   @Get(':id')
   async getReservaById(@Param('id', ParseIntPipe) id: number) {
     return this.reservaService.findById(id);
+  }
+
+  @Get('horarios-disponibles')
+  async getHorariosDisponibles(
+    @Query('lugarId', ParseIntPipe) lugarId: number,
+    @Query('fecha') fecha: string,
+  ) {
+    if (!lugarId || !fecha) {
+      // Puedes lanzar BadRequestException si lo prefieres
+      throw new NotFoundException('Faltan parámetros lugarId o fecha');
+    }
+    return this.reservaService.getHorariosDisponibles(lugarId, fecha);
   }
 
   

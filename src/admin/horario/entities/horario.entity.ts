@@ -22,8 +22,10 @@ export class Horario {
   @Column({ type: 'varchar', length: 20 })
   estado: string;  // 'Disponible' o 'Ocupado'
 
-  // Relación ManyToOne con Lugar
+ 
+
   @ManyToOne(() => LugaresEntity, lugar => lugar.horarios, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'id_lugar' }) // columna FK en Horario
-  lugar: LugaresEntity;
+@JoinColumn({ name: 'id_lugar' })
+lugar: LugaresEntity;
+
 }
