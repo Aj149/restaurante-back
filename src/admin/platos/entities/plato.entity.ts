@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { DetalleFactura } from 'src/admin/detalles-factura/entities/detalles-factura.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('platos')
 export class PlatoEntity {
@@ -16,4 +17,8 @@ export class PlatoEntity {
 
   @Column('text')
   imagen: string; // URL de la imagen
+
+  @OneToMany(() => DetalleFactura, (detalle) => detalle.plato)
+detalles: DetalleFactura[];
+
 }

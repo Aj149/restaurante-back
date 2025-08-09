@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Factura } from 'src/admin/factura/entities/factura.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity({ name: 'users', schema: 'usuarios' }) 
 export class UserEntity {
@@ -30,6 +31,7 @@ resetToken: string;
 @Column({ type: 'timestamp', nullable: true })
 resetTokenExpires: Date;
 
-  @Column({ default: 'usuario' })
-  role: string;  // 'usuario' o 'admin'
+  @OneToMany(() => Factura, (factura) => factura.usuario)
+facturas: Factura[];
+
 }

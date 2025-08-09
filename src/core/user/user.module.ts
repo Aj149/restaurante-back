@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Admin } from 'typeorm';
 import { AdminController } from '../admin/admin.controller';
 import { AdminService } from '../admin/admin.service';
+import { Factura } from 'src/admin/factura/entities/factura.entity';
 
 @Module({
   imports: [

@@ -19,6 +19,8 @@ import { AdminModule } from './core/admin/admin.module';
 import { PersonalModule } from './admin/personal/personal.module';
 import { BebidasModule } from './admin/bebidas/bebidas.module';
 import { HorarioModule } from './admin/horario/horario.module';
+import { FacturaModule } from './admin/factura/factura.module';
+import { DetallesFacturaModule } from './admin/detalles-factura/detalles-factura.module';
 
 
 @Module({
@@ -50,7 +52,9 @@ import { HorarioModule } from './admin/horario/horario.module';
     AdminModule,
     PersonalModule,
     BebidasModule,
-    HorarioModule
+    HorarioModule,
+    FacturaModule,
+    DetallesFacturaModule
   ],
   controllers: [AppController],
   providers: [AppService],
