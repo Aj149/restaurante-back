@@ -40,9 +40,9 @@ async loginAdmin(dto: LoginAdminDto): Promise<{ access_token: string }> {
 }
 
 
-  // Método para registrar un administrador (opcional)
+  // Método para registrar un administrador
   async registerAdmin(dto: CreateAdminDto): Promise<Admin> {
-    const { cedula, password } = dto;
+    const { cedula, password, correo } = dto;
   
     try {
       // Verificar si ya existe un administrador con la misma cédula
@@ -56,6 +56,7 @@ async loginAdmin(dto: LoginAdminDto): Promise<{ access_token: string }> {
   
       const newAdmin = this.adminRepository.create({
         cedula,
+        correo,
         password: hashedPassword,
       });
   
