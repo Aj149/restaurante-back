@@ -12,56 +12,85 @@ export class PersonalService {
     @InjectRepository(PersonalEntity) private readonly personalRepository: Repository<PersonalEntity>
   ) {}
 
-  async getPersonal(): Promise<PersonalEntity[]> {
-    const list = await this.personalRepository.find();
-    if (!list.length) {
-      throw new NotFoundException({ message: "No hay personal registrado" });
-    }
-    return list;
-  }
-  
-  async buscarPersonalId(id_persona: number): Promise<PersonalEntity> {
-    const personal = await this.personalRepository.findOne({
-      where: { id_persona: id_persona },
-    })
-    if (!personal) {
-      throw new NotFoundException({ message: "Este personal no existe" });
-    }
-    return personal;
+  // Obtener lista de todo el personal
+async getPersonal(): Promise<PersonalEntity[]> {
+  const list = await this.personalRepository.find();
+
+  // Si no hay personal registrado, lanza excepción
+  if (!list.length) {
+    throw new NotFoundException({ message: "No hay personal registrado" });
   }
 
-  async buscarPorNombre(nombre: string): Promise<PersonalEntity> {
-    const personal = await this.personalRepository.findOne({ where: { nombre } });
-    if (!personal) {
-      throw new NotFoundException({ message: 'No existe el personal con este nombre' });
-    }
-    return personal;
+  return list; // Devuelve la lista de personal
+}
+
+// Buscar personal por su ID
+async buscarPersonalId(id_persona: number): Promise<PersonalEntity> {
+  const personal = await this.personalRepository.findOne({
+    where: { id_persona: id_persona },
+  });
+
+  // Si no existe, lanza excepción
+  if (!personal) {
+    throw new NotFoundException({ message: "Este personal no existe" });
   }
 
-  async createPersonal(createPersonalDto: CreatePersonalDto) {
-    const personal = this.personalRepository.create(createPersonalDto);
-    await this.personalRepository.save(personal);
-    return { message: `El personal ${personal.nombre} ha sido creado` };
+  return personal; // Devuelve el personal encontrado
+}
+
+// Buscar personal por nombre
+async buscarPorNombre(nombre: string): Promise<PersonalEntity> {
+  const personal = await this.personalRepository.findOne({ where: { nombre } });
+
+  // Si no existe, lanza excepción
+  if (!personal) {
+    throw new NotFoundException({ message: 'No existe el personal con este nombre' });
   }
 
+  return personal; // Devuelve el personal encontrado
+}
 
+// Crear un nuevo personal
+async createPersonal(createPersonalDto: CreatePersonalDto) {
+  const personal = this.personalRepository.create(createPersonalDto);
 
-  async updatePersonal(id: number, updatePersonalDto: UpdatePersonalDto) {
-    const personal = await this.buscarPersonalId(id);
-    if (!personal) {  
-      throw new NotFoundException('No existe el personal');
-    }
-    Object.assign(personal, updatePersonalDto);
-    await this.personalRepository.save(personal);
-    return { message: `Personal con ID ${personal.id_persona} actualizado` };
+  // Guarda el personal en la base de datos
+  await this.personalRepository.save(personal);
+
+  return { message: `El personal ${personal.nombre} ha sido creado` };
+}
+
+// Actualizar datos de un personal existente
+async updatePersonal(id: number, updatePersonalDto: UpdatePersonalDto) {
+  const personal = await this.buscarPersonalId(id);
+
+  // Validación redundante (buscarPersonalId ya lanza excepción si no existe)
+  if (!personal) {  
+    throw new NotFoundException('No existe el personal');
   }
 
-  async deletePersonal(id: number) {
-    const personal = await this.buscarPersonalId(id);
-    if (!personal) {
-      throw new NotFoundException('No existe el personal');
-    }
-    await this.personalRepository.delete(personal.id_persona);
-    return { message: `Personal con ID ${id} eliminado` };
+  // Actualiza los datos con los nuevos valores
+  Object.assign(personal, updatePersonalDto);
+
+  // Guarda los cambios
+  await this.personalRepository.save(personal);
+
+  return { message: `Personal con ID ${personal.id_persona} actualizado` };
+}
+
+// Eliminar un personal por ID
+async deletePersonal(id: number) {
+  const personal = await this.buscarPersonalId(id);
+
+  // Validación redundante
+  if (!personal) {
+    throw new NotFoundException('No existe el personal');
   }
+
+  // Elimina el registro
+  await this.personalRepository.delete(personal.id_persona);
+
+  return { message: `Personal con ID ${id} eliminado` };
+}
+
 }

@@ -16,5 +16,5 @@ export class BebidaEntity {
   descripcion: string;
 
   @Column('text')
-  imagen: string; // URL de la imagen
+  imagen: string;
 }

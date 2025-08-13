@@ -5,22 +5,22 @@ import { UpdateCarritoDto } from './dto/update-carrito.dto';
 @Injectable()
 export class CarritoService {
   create(createCarritoDto: CreateCarritoDto) {
-    return 'This action adds a new carrito';
-  }
+  return ' añade un nuevo carrito';
+}
 
-  findAll() {
-    return `This action returns all carrito`;
-  }
+findAll() {
+  return `devuelve todos los carritos`;
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} carrito`;
-  }
+findOne(id: number) {
+  return ` devuelve el carrito #${id}`;
+}
 
-  update(id: number, updateCarritoDto: UpdateCarritoDto) {
-    return `This action updates a #${id} carrito`;
-  }
+update(id: number, updateCarritoDto: UpdateCarritoDto) {
+  return `actualiza el carrito #${id}`;
+}
 
-  remove(id: number) {
-    return `This action removes a #${id} carrito`;
-  }
+remove(id: number) {
+  return ` elimina el carrito #${id}`;
+}
 }

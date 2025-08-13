@@ -19,42 +19,50 @@ import { ResetearPasswordDto } from './dto/reset-admin.dto';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  // Registro con validación anti-bots
-  @Post('register')
-  async register(@Body() createAdminDto: CreateAdminDto) {
-    if (createAdminDto.website && createAdminDto.website.trim() !== '') {
-      throw new BadRequestException('Bot detectado');
-    }
-    return this.adminService.registerAdmin(createAdminDto);
+  
+  // Ruta POST para registrar un nuevo administrador
+@Post('register')
+async register(@Body() createAdminDto: CreateAdminDto) {
+  // Validación para detectar bots: si el campo 'website' tiene texto, se rechaza la solicitud
+  if (createAdminDto.website && createAdminDto.website.trim() !== '') {
+    throw new BadRequestException('Bot detectado');
   }
+  // Si pasa la validación, se llama al servicio para registrar el administrador
+  return this.adminService.registerAdmin(createAdminDto);
+}
 
-  // Autenticación de administrador
-  @HttpCode(HttpStatus.OK)
-  @Post('login')
-  async login(@Body() loginAdminDto: LoginAdminDto) {
-    return this.adminService.loginAdmin(loginAdminDto);
+// Ruta POST para iniciar sesión del administrador
+@HttpCode(HttpStatus.OK) // Establece el código HTTP 200 explícitamente para el login
+@Post('login')
+async login(@Body() loginAdminDto: LoginAdminDto) {
+  // Llama al servicio para validar credenciales y generar token de acceso
+  return this.adminService.loginAdmin(loginAdminDto);
+}
+
+// Ruta POST para solicitar recuperación de contraseña (envía email, token, etc.)
+@Post('forgot-password')
+async forgotPassword(@Body() dto: RecuperarPassword): Promise<{ message: string }> {
+  try {
+    // Llama al servicio para procesar la solicitud de recuperación de contraseña
+    return await this.adminService.contrasenaOlvidada(dto);
+  } catch (error) {
+    // En caso de error interno, se registra y lanza una excepción genérica para el cliente
+    console.error('Error en forgotPassword:', error);
+    throw new InternalServerErrorException('Error al procesar la solicitud');
   }
+}
 
-  // Recuperar contraseña
-  @Post('forgot-password')
-  async forgotPassword(@Body() dto: RecuperarPassword): Promise<{ message: string }> {
-    try {
-      return await this.adminService.contrasenaOlvidada(dto);
-    } catch (error) {
-      console.error('Error en forgotPassword:', error);
-      throw new InternalServerErrorException('Error al procesar la solicitud');
-    }
+// Ruta POST para restablecer la contraseña usando token y nueva contraseña
+@Post('reset-password')
+async resetPassword(@Body() dto: ResetearPasswordDto): Promise<{ message: string }> {
+  try {
+    // Llama al servicio que verifica el token y actualiza la contraseña
+    return await this.adminService.resetPassword(dto);
+  } catch (error) {
+    // Manejo de errores similar al anterior
+    console.error('Error en resetPassword:', error);
+    throw new InternalServerErrorException('Error al procesar la solicitud');
   }
+}
 
-  // Resetear contraseña
-  @Post('reset-password')
-  async resetPassword(@Body() dto: ResetearPasswordDto): Promise<{ message: string }> {
-    try {
-      return await this.adminService.resetPassword(dto);
-
-    } catch (error) {
-      console.error('Error en resetPassword:', error);
-      throw new InternalServerErrorException('Error al procesar la solicitud');
-    }
-  }
 }

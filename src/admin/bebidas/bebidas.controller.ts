@@ -7,33 +7,44 @@ import { UpdateBebidaDto } from './dto/update-bebida.dto';
 export class BebidasController {
   constructor(private readonly bebidasService: BebidasService) {}
 
-  @UsePipes(ValidationPipe)
-  @Get()
-  async getBebidas() {
-    return this.bebidasService.getBebidas();
-  }
-  
-  @UsePipes(ValidationPipe)
-  @Get(':id')
-  async gerBebidaById(@Param('id') id: number) {
-    return this.bebidasService.buscarBebidaId(id);
-  }
-
-  @Post()
-  async create(@Body() createBebidaDto: CreateBebidaDto) {
-    return this.bebidasService.createBebida(createBebidaDto);
-  }
+// Aplica un ValidationPipe para validar datos automáticamente
+@UsePipes(ValidationPipe)
+// Método GET para obtener todas las bebidas
+@Get()
+async getBebidas() {
+  // Llama al servicio y devuelve la lista de bebidas
+  return this.bebidasService.getBebidas();
+}
 
 
+@UsePipes(ValidationPipe)
+// Método GET para obtener una bebida por su ID
+@Get(':id')
+async gerBebidaById(@Param('id') id: number) {
+  // Busca y devuelve la bebida con el ID dado
+  return this.bebidasService.buscarBebidaId(id);
+}
 
-  @Patch(':id')
-  async update(@Param('id') id: number, @Body() updateBebidaDto: UpdateBebidaDto) {
-    return this.bebidasService.update(id, updateBebidaDto);
-  }
+// Método POST para crear una nueva bebida
+@Post()
+async create(@Body() createBebidaDto: CreateBebidaDto) {
+  // Llama al servicio para guardar la nueva bebida
+  return this.bebidasService.createBebida(createBebidaDto);
+}
 
-  @UsePipes(ValidationPipe)
-  @Delete(':id')
-  async deleteBebida(@Param('id') id: number) {
-    return await this.bebidasService.deleteBebida(id);
-  }
+// Método PATCH para actualizar una bebida por su ID
+@Patch(':id')
+async update(@Param('id') id: number, @Body() updateBebidaDto: UpdateBebidaDto) {
+  // Llama al servicio para modificar la bebida
+  return this.bebidasService.update(id, updateBebidaDto);
+}
+
+// Aplica validaciones automáticas
+@UsePipes(ValidationPipe)
+// Método DELETE para eliminar una bebida por su ID
+@Delete(':id')
+async deleteBebida(@Param('id') id: number) {
+  // Elimina la bebida y devuelve el resultado
+  return await this.bebidasService.deleteBebida(id);
+}
 }

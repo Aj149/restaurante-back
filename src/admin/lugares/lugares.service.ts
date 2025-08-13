@@ -12,31 +12,45 @@ export class LugaresService {
       @InjectRepository(LugaresEntity) 
       private readonly lugaresRepository: Repository<LugaresEntity>
     ) {}
-    async getLugares(): Promise<LugaresEntity[]> {
-          const list = await this.lugaresRepository.find();
-          if(!list.length){
-              throw new NotFoundException({message: "no hay lugares"});
-          }
-          return list;
-      }
-  
-     async buscarLugarId(id_lugar: number):Promise<LugaresEntity>{
-            const lugar = await this.lugaresRepository.findOne({
-                where: {id_lugar: id_lugar},
-            })
-            if(!lugar){
-                throw new NotFoundException({message: "este lugar no existe"});
-            }
-            return lugar;
-        }
-  
-        async buscarPorNombre(nombre: string) {
-          const lugar = await this.lugaresRepository.findOne({ where: { nombre } });
-          if (!lugar) {
-          throw new NotFoundException({ message: 'No existe el lugar con este nombre' });
-          }
-          return lugar;
-      } 
+   // Obtener todos los lugares
+async getLugares(): Promise<LugaresEntity[]> {
+  // Busca todos los registros en la tabla de lugares
+  const list = await this.lugaresRepository.find();
+
+  // Si no hay registros, lanza excepción
+  if (!list.length) {
+    throw new NotFoundException({ message: "no hay lugares" });
+  }
+
+  return list; // Devuelve la lista de lugares
+}
+
+// Buscar un lugar por su ID
+async buscarLugarId(id_lugar: number): Promise<LugaresEntity> {
+  const lugar = await this.lugaresRepository.findOne({
+    where: { id_lugar: id_lugar },
+  });
+
+  // Si no existe, lanza excepción
+  if (!lugar) {
+    throw new NotFoundException({ message: "este lugar no existe" });
+  }
+
+  return lugar; // Devuelve el lugar encontrado
+}
+
+// Buscar un lugar por su nombre
+async buscarPorNombre(nombre: string) {
+  const lugar = await this.lugaresRepository.findOne({ where: { nombre } });
+
+  // Si no existe, lanza excepción
+  if (!lugar) {
+    throw new NotFoundException({ message: 'No existe el lugar con este nombre' });
+  }
+
+  return lugar; // Devuelve el lugar encontrado
+}
+
 
       // buscar con horarios
 
@@ -45,30 +59,51 @@ export class LugaresService {
 
 
   
-      async createLugar(CreateLugareDto: CreateLugareDto){
-              const lugar = this.lugaresRepository.create(CreateLugareDto);
-              await this.lugaresRepository.save(lugar);
-              return {message: `La lugar para ${lugar.nombre} ha sido creada`};
-          }
-  
-  
-           async updateLugar(id_lugar: number, UpdateLugareDto: UpdateLugareDto){
-                  const lugar = await this.buscarLugarId(id_lugar);
-                  if (!lugar) {
-                    throw new NotFoundException('No existe el lugar');
-                  }
-                  Object.assign(lugar, UpdateLugareDto);
-                  await this.lugaresRepository.save(lugar);
-                  return {message: `lugar con ID ${lugar.id_lugar} actualizado`};
-                }
-  
-  
-                async borrarLugar(id_lugar: number) {
-                  const lugar = await this.buscarLugarId(id_lugar);
-                  if (!lugar) {
-                      throw new NotFoundException(`La lugar con ID ${id_lugar} no existe`);
-                  }
-                  await this.lugaresRepository.delete(lugar.id_lugar);
-                  return {message: `Lugar con ID ${lugar.id_lugar} eliminada`};
-          }
+      // Crear un nuevo lugar
+async createLugar(CreateLugareDto: CreateLugareDto) {
+  // Crea una nueva entidad a partir de los datos recibidos
+  const lugar = this.lugaresRepository.create(CreateLugareDto);
+
+  // Guarda la entidad en la base de datos
+  await this.lugaresRepository.save(lugar);
+
+  // Devuelve mensaje de confirmación
+  return { message: `El lugar ${lugar.nombre} ha sido creado` };
+}
+
+// Actualizar un lugar existente
+async updateLugar(id_lugar: number, UpdateLugareDto: UpdateLugareDto) {
+  // Busca el lugar por su ID
+  const lugar = await this.buscarLugarId(id_lugar);
+
+  // Si no existe, lanza un error
+  if (!lugar) {
+    throw new NotFoundException('No existe el lugar');
+  }
+
+  // Mezcla los datos nuevos con los existentes
+  Object.assign(lugar, UpdateLugareDto);
+
+  // Guarda los cambios
+  await this.lugaresRepository.save(lugar);
+
+  return { message: `Lugar con ID ${lugar.id_lugar} actualizado` };
+}
+
+// Eliminar un lugar
+async borrarLugar(id_lugar: number) {
+  // Busca el lugar por su ID
+  const lugar = await this.buscarLugarId(id_lugar);
+
+  // Si no existe, lanza un error
+  if (!lugar) {
+    throw new NotFoundException(`El lugar con ID ${id_lugar} no existe`);
+  }
+
+  // Elimina el registro de la base de datos
+  await this.lugaresRepository.delete(lugar.id_lugar);
+
+  return { message: `Lugar con ID ${lugar.id_lugar} eliminado` };
+}
+
 }

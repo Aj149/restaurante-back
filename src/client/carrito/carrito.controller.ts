@@ -8,29 +8,35 @@ import { AuthGuard } from '@nestjs/passport';
 export class CarritoController {
   constructor(private readonly carritoService: CarritoService) {}
 
-  @Post()
-  create(@Body() createCarritoDto: CreateCarritoDto) {
-    return this.carritoService.create(createCarritoDto);
-  }
+  // Crear un nuevo carrito con los datos enviados en el cuerpo de la petición
+@Post()
+create(@Body() createCarritoDto: CreateCarritoDto) {
+  return this.carritoService.create(createCarritoDto);
+}
 
-  @UseGuards(AuthGuard('jwt'))
-  @Get()
-  getCarritoData() {
-    return { mensaje: 'Solo puedes ver esto si estás logueado' };
-  }
+// Ruta protegida, solo accesible si el usuario está autenticado vía JWT
+@UseGuards(AuthGuard('jwt'))
+@Get()
+getCarritoData() {
+  return { mensaje: 'Solo puedes ver esto si estás logueado' };
+}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.carritoService.findOne(+id);
-  }
+// Obtener un carrito por su ID (recibido como parámetro en la URL)
+@Get(':id')
+findOne(@Param('id') id: string) {
+  return this.carritoService.findOne(+id); // Convierte id a número
+}
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCarritoDto: UpdateCarritoDto) {
-    return this.carritoService.update(+id, updateCarritoDto);
-  }
+// Actualizar un carrito existente por ID con los datos enviados en el cuerpo
+@Patch(':id')
+update(@Param('id') id: string, @Body() updateCarritoDto: UpdateCarritoDto) {
+  return this.carritoService.update(+id, updateCarritoDto);
+}
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.carritoService.remove(+id);
-  }
+// Eliminar un carrito por su ID
+@Delete(':id')
+remove(@Param('id') id: string) {
+  return this.carritoService.remove(+id);
+}
+
 }

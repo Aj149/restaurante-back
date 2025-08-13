@@ -5,22 +5,23 @@ import { UpdateDetallesFacturaDto } from './dto/update-detalles-factura.dto';
 @Injectable()
 export class DetallesFacturaService {
   create(createDetallesFacturaDto: CreateDetallesFacturaDto) {
-    return 'This action adds a new detallesFactura';
-  }
+  return 'nuevo detallesFactura';
+}
 
-  findAll() {
-    return `This action returns all detallesFactura`;
-  }
+findAll() {
+  return 'Esta acción devuelve todos los detallesFactura';
+}
 
-  findOne(id: number) {
-    return `This action returns a #${id} detallesFactura`;
-  }
+findOne(id: number) {
+  return ` detallesFactura con ID #${id}`;
+}
 
-  update(id: number, updateDetallesFacturaDto: UpdateDetallesFacturaDto) {
-    return `This action updates a #${id} detallesFactura`;
-  }
+update(id: number, updateDetallesFacturaDto: UpdateDetallesFacturaDto) {
+  return ` actualiza el detallesFactura con ID #${id}`;
+}
 
-  remove(id: number) {
-    return `This action removes a #${id} detallesFactura`;
-  }
+remove(id: number) {
+  return `elimina el detallesFactura con ID #${id}`;
+}
+
 }

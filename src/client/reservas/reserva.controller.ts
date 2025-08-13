@@ -9,38 +9,42 @@ import { UpdateReservaDto } from './dto/update-reserva.dto';
 export class ReservaController {
   constructor(private readonly reservaService: ReservaService) {}
 
+// Obtener todas las reservas con validación de datos
+@UsePipes(ValidationPipe)
+@Get()
+async getReservas() {
+  return this.reservaService.getReserva();
+}
 
-  @UsePipes(ValidationPipe)
-  @Get()
-  async getReservas() {
-    return this.reservaService.getReserva();
-  }
-  
-  @UsePipes(ValidationPipe)
-  @Get(':id')
-  async getReservaById(@Param('id', ParseIntPipe) id: number) {
-    return this.reservaService.findById(id);
-  }
+// Obtener una reserva por su ID con validación y conversión de tipo
+@UsePipes(ValidationPipe)
+@Get(':id')
+async getReservaById(@Param('id', ParseIntPipe) id: number) {
+  return this.reservaService.findById(id);
+}
 
-  @Get('horarios-disponibles')
-  async getHorariosDisponibles(
-    @Query('lugarId', ParseIntPipe) lugarId: number,
-    @Query('fecha') fecha: string,
-  ) {
-    if (!lugarId || !fecha) {
-      // Puedes lanzar BadRequestException si lo prefieres
-      throw new NotFoundException('Faltan parámetros lugarId o fecha');
-    }
-    return this.reservaService.getHorariosDisponibles(lugarId, fecha);
+// Obtener horarios disponibles para un lugar y fecha específicos
+@Get('horarios-disponibles')
+async getHorariosDisponibles(
+  @Query('lugarId', ParseIntPipe) lugarId: number,
+  @Query('fecha') fecha: string,
+) {
+  // Validar que los parámetros existan
+  if (!lugarId || !fecha) {
+    throw new NotFoundException('Faltan parámetros lugarId o fecha');
   }
+  // Obtener horarios disponibles a través del servicio
+  return this.reservaService.getHorariosDisponibles(lugarId, fecha);
+}
 
-  
-  @Post()
-  async createReserva(@Body() createReservaDto: CreateReservaDto) {
-    return this.reservaService.createReserva(createReservaDto);
-  }
+// Crear una nueva reserva con los datos enviados en el cuerpo
+@Post()
+async createReserva(@Body() createReservaDto: CreateReservaDto) {
+  return this.reservaService.createReserva(createReservaDto);
+}
 
-  @UsePipes(ValidationPipe)
+// Actualizar parcialmente una reserva por ID con validación
+@UsePipes(ValidationPipe)
 @Patch(':id')
 async update(
   @Param('id', ParseIntPipe) id: number,
@@ -50,9 +54,10 @@ async update(
   if (!reserva) {
     throw new NotFoundException('No existe la reserva');
   }
-  return {message: `Reserva con ID ${id} actualizada`};
+  return { message: `Reserva con ID ${id} actualizada` };
 }
 
+// Actualización completa de una reserva (PUT) con validación
 @UsePipes(ValidationPipe)
 @Put(':id')
 async updateComplete(
@@ -66,11 +71,11 @@ async updateComplete(
   return reserva;
 }
 
+// Eliminar una reserva por ID con validación
+@UsePipes(ValidationPipe)
+@Delete(':id')
+async deleteReserva(@Param('id', ParseIntPipe) id: number){
+  return this.reservaService.deleteReserva(id);
+}
 
-
-  @UsePipes(ValidationPipe)
-  @Delete(':id')
-  async deleteReserva(@Param('id', ParseIntPipe) id: number){
-    return this.reservaService.deleteReserva(id);
-  }
 }

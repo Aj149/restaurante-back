@@ -22,5 +22,5 @@ export class Admin {
   resetTokenExpires: Date;
 
   @Column({ default: 'admin' })
-  role: string;  // Puede ser 'admin' o 'usuario'
+  role: string;
 }
