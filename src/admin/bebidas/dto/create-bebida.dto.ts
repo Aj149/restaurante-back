@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsPositive, IsUrl } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsUrl } from "class-validator";
 
 export class CreateBebidaDto {
 
@@ -18,4 +18,8 @@ export class CreateBebidaDto {
   @IsOptional()
   @IsUrl({}, { message: 'La imagen debe ser una URL válida' })
   imagen: string;
+
+  @IsBoolean()
+  @IsOptional()
+  estado?: boolean;
 }

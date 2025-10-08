@@ -94,4 +94,49 @@ async deleteBebida(id_bebida: number) {
   return { message: `Bebida con ID ${bebida.id_bebida} eliminada` };
 }
 
+// MÉTODO PARA OBTENER SOLO BEBIDAS VISIBLES
+    async findAll(): Promise<BebidaEntity[]> {
+    return await this.bebidaRepository.find({
+      where: { estado: true } // Solo bebidas activas
+    });
+  }
+
+    // ✅ MÉTODO PARA OBTENER TODAS LAS BEBIDAS (incluyendo ocultas - para admin)
+  async findAllAdmin(): Promise<BebidaEntity[]> {
+    return await this.bebidaRepository.find();
+  }
+
+     // ✅ MÉTODO PARA OCULTAR BEBIDA
+  async ocultarBebida(id_bebida: number): Promise<BebidaEntity> {
+    const bebida = await this.bebidaRepository.findOne({
+      where: { id_bebida }
+    });
+
+    if (!bebida) {
+      throw new NotFoundException(`Bebida con ID ${id_bebida} no encontrada`);
+    }
+
+    bebida.estado = false; // Ocultar
+    return await this.bebidaRepository.save(bebida);
+  }
+
+   // ✅ MÉTODO PARA MOSTRAR BEBIDA
+  async mostrarBebida(id_bebida: number): Promise<BebidaEntity> {
+    const bebida = await this.bebidaRepository.findOne({
+      where: { id_bebida }
+    });
+
+    if (!bebida) {
+      throw new NotFoundException(`Bebida con ID ${id_bebida} no encontrada`);
+    }
+
+    bebida.estado = true; // Mostrar
+    return await this.bebidaRepository.save(bebida);
+  }
+    async findAllActive(): Promise<BebidaEntity[]> {
+  return await this.bebidaRepository.find({
+    where: { estado: true } // Solo bebidas con estado true
+  });
+}
+
 }

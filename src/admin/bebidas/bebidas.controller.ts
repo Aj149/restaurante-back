@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { BebidasService } from './bebidas.service';
 import { CreateBebidaDto } from './dto/create-bebida.dto';
 import { UpdateBebidaDto } from './dto/update-bebida.dto';
+import { BebidaEntity } from './entities/bebida.entity';
 
 @Controller('bebidas')
 export class BebidasController {
@@ -47,4 +48,17 @@ async deleteBebida(@Param('id') id: number) {
   // Elimina la bebida y devuelve el resultado
   return await this.bebidasService.deleteBebida(id);
 }
+
+
+   // ✅ ENDPOINT PARA OCULTAR BEBIDA
+  @Patch(':id/ocultar')
+  async ocultar(@Param('id', ParseIntPipe) id: number): Promise<BebidaEntity> {
+    return await this.bebidasService.ocultarBebida(id);
+  }
+
+  // ✅ ENDPOINT PARA MOSTRAR BEBIDA
+  @Patch(':id/mostrar')
+  async mostrar(@Param('id', ParseIntPipe) id: number): Promise<BebidaEntity> {
+    return await this.bebidasService.mostrarBebida(id);
+  }
 }

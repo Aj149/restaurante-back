@@ -17,4 +17,7 @@ export class BebidaEntity {
 
   @Column('text')
   imagen: string;
+
+  @Column({ default: true })
+  estado: boolean;
 }
